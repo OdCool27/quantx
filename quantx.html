@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════╗
+  ║  QUANT X — WEBSITE  (Single-file, publish-ready)    ║
+  ║  How to go live in 60 seconds:                      ║
+  ║  1. Go to  https://app.netlify.com/drop             ║
+  ║  2. Drag this file onto the page                    ║
+  ║  3. Your site is live on a Netlify URL instantly    ║
+  ║  4. Add your own domain in Site Settings > Domains  ║
+  ╚══════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quant X — Financial Intelligence & Transformation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+
+        /* ═══════════════════════════════════════════
+           TOKENS
+        ═══════════════════════════════════════════ */
+        :root {
+            --navy-deep:  #06101E;
+            --navy:       #0B1A2E;
+            --navy-mid:   #112540;
+            --navy-light: #1C3558;
+            --white:      #FFFFFF;
+            --off-white:  #F3F6FB;
+            --border:     #DDE4EF;
+            --text:       #0B1A2E;
+            --text-mid:   #476080;
+            --text-light: #8AA0B8;
+            --silver-on-dark: #7A9BBD;
+            --gold:       #C9A84C;
+            --gold-light: rgba(201,168,76,0.12);
+            --accent:     #1A6BFF;
+            --accent-dim: rgba(26,107,255,0.08);
+
+            --fd: 'Outfit', sans-serif;
+            --fs: 'Lora', serif;
+        }
+
+        /* ═══════════════════════════════════════════
+           BASE
+        ═══════════════════════════════════════════ */
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            background: var(--white);
+            color: var(--text);
+            font-family: var(--fd);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; font-family: var(--fd); }
+        img { display: block; max-width: 100%; }
+
+        /* ═══════════════════════════════════════════
+           SCROLLBAR
+        ═══════════════════════════════════════════ */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--white); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        /* ═══════════════════════════════════════════
+           UTILITY
+        ═══════════════════════════════════════════ */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+        .tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+        .tag-dark  { color: var(--gold); }
+        .tag-light { color: var(--accent); }
+        .tag::before {
+            content: '';
+            width: 20px; height: 1px;
+            background: currentColor;
+            flex-shrink: 0;
+        }
+
+        /* ═══════════════════════════════════════════
+           LOGO — AI Scientific Capital Q
+           The Q letterform is drawn as a thick arc with
+           a gold serif tail. Orbital rings, data nodes,
+           a crosshair grid, and circuit tick marks give
+           it a neural / atomic / scientific character.
+        ═══════════════════════════════════════════ */
+        .logo-lockup { display:flex; align-items:center; gap:14px; }
+        .logo-mark   { flex-shrink:0; }
+        .logo-text   { display:flex; flex-direction:column; line-height:1; }
+        .logo-name   { font-size:20px; font-weight:800; letter-spacing:0.04em; color:var(--white); }
+        .logo-name-dark { color:var(--navy); }
+        .logo-sub    { font-size:8px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.38); margin-top:3px; }
+        .logo-sub-dark { color:var(--text-mid); }
+
+        /* ═══════════════════════════════════════════
+           NAV
+        ═══════════════════════════════════════════ */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 0 48px;
+            background: rgba(6,16,30,0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: background 0.3s;
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            height: 72px; display: flex;
+            align-items: center; justify-content: space-between;
+        }
+        .nav-links {
+            display: flex; align-items: center; gap: 36px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 13px; font-weight: 500;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta {
+            background: var(--white); color: var(--navy-deep);
+            padding: 10px 24px;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.06em;
+            border: none; border-radius: 2px;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .nav-cta:hover { background: var(--gold); transform: translateY(-1px); }
+
+        /* ═══════════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════════ */
+        .hero {
+            background: var(--navy-deep);
+            min-height: 100vh;
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+            padding: 120px 0 80px;
+        }
+
+        /* Background circle decoration — like United Fintech */
+        .hero-circle-1 {
+            position: absolute;
+            width: 700px; height: 700px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.04);
+            right: -180px; top: 50%; transform: translateY(-50%);
+        }
+        .hero-circle-2 {
+            position: absolute;
+            width: 500px; height: 500px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.05);
+            right: -80px; top: 50%; transform: translateY(-50%);
+        }
+        .hero-circle-3 {
+            position: absolute;
+            width: 300px; height: 300px; border-radius: 50%;
+            border: 1px solid rgba(201,168,76,0.12);
+            right: 20px; top: 50%; transform: translateY(-50%);
+        }
+        /* Rotating dashed ring */
+        .hero-ring {
+            position: absolute;
+            width: 600px; height: 600px; border-radius: 50%;
+            border: 1px dashed rgba(255,255,255,0.07);
+            right: -120px; top: 50%; transform: translateY(-50%);
+            animation: spin 40s linear infinite;
+        }
+        @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+        /* Data dots on ring */
+        .hero-dot {
+            position: absolute; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--gold); opacity: 0.6;
+        }
+
+        .hero-inner {
+            position: relative; z-index: 2;
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 48px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            align-items: center; gap: 80px;
+        }
+        .hero-content {}
+        .hero-eyebrow {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 28px;
+        }
+        .hero-eyebrow::before {
+            content: ''; width: 32px; height: 1px;
+            background: var(--gold);
+        }
+        .hero-h1 {
+            font-size: clamp(44px, 5.5vw, 72px);
+            font-weight: 800; line-height: 1.02;
+            letter-spacing: -0.025em;
+            color: var(--white);
+            margin-bottom: 28px;
+        }
+        .hero-h1 em {
+            font-family: var(--fs);
+            font-style: italic;
+            font-weight: 400;
+            color: rgba(255,255,255,0.55);
+        }
+        .hero-body {
+            font-size: 17px; font-weight: 400;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.78;
+            max-width: 480px;
+            margin-bottom: 44px;
+        }
+        .hero-actions {
+            display: flex; gap: 16px; align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary-dark {
+            background: var(--white); color: var(--navy-deep);
+            padding: 16px 36px;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            border: 2px solid var(--white);
+            border-radius: 2px; transition: all 0.25s;
+        }
+        .btn-primary-dark:hover {
+            background: var(--gold); border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+        .btn-outline-dark {
+            background: transparent; color: rgba(255,255,255,0.7);
+            padding: 14px 36px;
+            font-size: 13px; font-weight: 600;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            border: 1.5px solid rgba(255,255,255,0.25);
+            border-radius: 2px; transition: all 0.25s;
+        }
+        .btn-outline-dark:hover {
+            border-color: rgba(255,255,255,0.6);
+            color: var(--white);
+        }
+
+        /* Hero right: stat cards */
+        .hero-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+        }
+        .hero-stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            padding: 32px 28px;
+            transition: background 0.25s;
+        }
+        .hero-stat-card:hover { background: rgba(255,255,255,0.07); }
+        .hero-stat-card.featured {
+            background: var(--gold);
+            border-color: var(--gold);
+            grid-column: span 2;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .stat-num {
+            font-size: clamp(36px, 4vw, 52px);
+            font-weight: 800; letter-spacing: -0.03em;
+            color: var(--white); line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat-num span { font-size: 0.5em; font-weight: 600; vertical-align: super; }
+        .stat-label {
+            font-size: 12px; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+        }
+        .hero-stat-card.featured .stat-num { color: var(--navy-deep); }
+        .hero-stat-card.featured .stat-label { color: rgba(6,16,30,0.55); }
+        .feat-body {
+            font-size: 14px; font-weight: 400;
+            color: rgba(6,16,30,0.6); line-height: 1.6; max-width: 220px;
+        }
+
+        /* ═══════════════════════════════════════════
+           SCROLL TICKER
+        ═══════════════════════════════════════════ */
+        .ticker {
+            background: var(--off-white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 14px 0; overflow: hidden;
+        }
+        .ticker-track {
+            display: flex; gap: 0;
+            animation: scroll 28s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .ticker-item {
+            display: inline-flex; align-items: center; gap: 32px;
+            padding: 0 40px;
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--text-mid);
+        }
+        .ticker-item::after {
+            content: '◆'; font-size: 6px;
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════════
+           SECTION SHARED
+        ═══════════════════════════════════════════ */
+        .section { padding: 100px 0; }
+        .section-sm { padding: 72px 0; }
+        .section-dark {
+            background: var(--navy-deep);
+            color: var(--white);
+        }
+        .section-mid { background: var(--off-white); }
+        .section-white { background: var(--white); }
+
+        .section-header { margin-bottom: 64px; }
+        .section-header.centered { text-align: center; }
+
+        .sh-title {
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 700; letter-spacing: -0.025em;
+            line-height: 1.06; margin-top: 16px;
+        }
+        .sh-title em {
+            font-family: var(--fs); font-style: italic;
+            font-weight: 400;
+        }
+        .sh-title.dark { color: var(--white); }
+        .sh-body {
+            font-size: 17px; color: var(--text-mid);
+            line-height: 1.78; margin-top: 20px; max-width: 580px;
+        }
+        .sh-body.dark { color: var(--silver-on-dark); }
+        .sh-body.centered { max-width: 600px; margin: 20px auto 0; }
+
+        /* ═══════════════════════════════════════════
+           CHALLENGE SECTION (White bg, split)
+        ═══════════════════════════════════════════ */
+        .challenge-grid {
+            display: grid; grid-template-columns: 5fr 7fr; gap: 80px;
+            align-items: center;
+        }
+        .challenge-left {}
+        .challenge-right {}
+        .challenge-cards { display: flex; flex-direction: column; gap: 2px; }
+        .challenge-card {
+            padding: 28px 32px;
+            border: 1px solid var(--border);
+            display: flex; gap: 24px; align-items: flex-start;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            background: var(--white);
+        }
+        .challenge-card:hover {
+            border-color: var(--navy-light);
+            box-shadow: 0 4px 24px rgba(11,26,46,0.07);
+        }
+        .cc-num {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.18em; color: var(--gold);
+            flex-shrink: 0; padding-top: 4px;
+            min-width: 32px;
+        }
+        .cc-title {
+            font-size: 16px; font-weight: 700;
+            letter-spacing: -0.01em; margin-bottom: 8px;
+        }
+        .cc-body {
+            font-size: 14px; color: var(--text-mid);
+            line-height: 1.72;
+        }
+
+        /* ═══════════════════════════════════════════
+           SERVICES — Dark bg like United Fintech
+        ═══════════════════════════════════════════ */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .service-card {
+            background: var(--navy-deep);
+            padding: 40px 32px;
+            display: flex; flex-direction: column;
+            gap: 20px;
+            transition: background 0.25s;
+            position: relative; overflow: hidden;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: var(--gold);
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+        .service-card:hover { background: var(--navy-mid); }
+        .service-card:hover::after { transform: scaleX(1); }
+
+        .sc-index {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.22em; color: var(--gold);
+        }
+        .sc-icon-wrap {
+            width: 52px; height: 52px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.03);
+        }
+        .sc-name {
+            font-size: 20px; font-weight: 700;
+            letter-spacing: -0.02em; color: var(--white);
+        }
+        .sc-badge {
+            display: inline-block;
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4px 10px;
+        }
+        .sc-desc {
+            font-size: 14px; color: var(--silver-on-dark);
+            line-height: 1.75; flex: 1;
+        }
+        .sc-arrow {
+            font-size: 18px; color: rgba(255,255,255,0.2);
+            margin-top: auto;
+            transition: color 0.25s, transform 0.25s;
+        }
+        .service-card:hover .sc-arrow {
+            color: var(--gold); transform: translateX(4px);
+        }
+
+        /* Full-width CTA card in services */
+        .services-cta-card {
+            background: var(--gold);
+            grid-column: 1 / -1;
+            padding: 40px 48px;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+        }
+        .scc-text {
+            font-size: 22px; font-weight: 700;
+            color: var(--navy-deep); letter-spacing: -0.02em;
+        }
+        .scc-text span { font-family: var(--fs); font-style: italic; font-weight: 400; }
+        .btn-navy {
+            background: var(--navy-deep); color: var(--white);
+            padding: 14px 32px;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.06em; text-transform: uppercase;
+            border: none; border-radius: 2px;
+            flex-shrink: 0; transition: background 0.2s;
+        }
+        .btn-navy:hover { background: var(--navy-mid); }
+
+        /* ═══════════════════════════════════════════
+           HOW IT WORKS — white bg, horizontal steps
+        ═══════════════════════════════════════════ */
+        .steps-row {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border);
+            margin-top: 56px;
+        }
+        .step-card {
+            background: var(--white); padding: 36px 28px;
+            position: relative; transition: background 0.25s;
+        }
+        .step-card:hover { background: var(--off-white); }
+        .step-num {
+            font-size: 56px; font-weight: 800;
+            letter-spacing: -0.04em; line-height: 1;
+            color: rgba(11,26,46,0.06);
+            margin-bottom: 20px;
+        }
+        .step-title {
+            font-size: 18px; font-weight: 700;
+            letter-spacing: -0.02em; margin-bottom: 12px;
+        }
+        .step-body {
+            font-size: 14px; color: var(--text-mid); line-height: 1.72;
+        }
+        .step-connector {
+            position: absolute; right: -1px; top: 36px;
+            width: 1px; height: 40px;
+            background: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════════
+           AI INTELLIGENCE — dark section, split layout
+        ═══════════════════════════════════════════ */
+        .ai-split {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 80px; align-items: center;
+        }
+        .ai-features { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+        .ai-feat {
+            display: flex; gap: 20px; align-items: flex-start;
+            padding: 20px 24px;
+            border: 1px solid rgba(255,255,255,0.07);
+            transition: border-color 0.25s, background 0.25s;
+        }
+        .ai-feat:hover {
+            border-color: rgba(201,168,76,0.3);
+            background: rgba(255,255,255,0.02);
+        }
+        .ai-feat-num {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.18em; color: var(--gold);
+            flex-shrink: 0; padding-top: 3px;
+        }
+        .ai-feat-title {
+            font-size: 15px; font-weight: 600;
+            color: var(--white); margin-bottom: 6px;
+        }
+        .ai-feat-body {
+            font-size: 13px; color: var(--silver-on-dark);
+            line-height: 1.68;
+        }
+
+        /* Dashboard mockup */
+        .dashboard {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .db-topbar {
+            padding: 14px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.03);
+        }
+        .db-title-text {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+        .db-live {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.15em; color: #22C55E;
+        }
+        .db-live-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #22C55E;
+            animation: blink 1.8s ease infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .db-metrics {
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px; background: rgba(255,255,255,0.07);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .db-metric {
+            background: var(--navy-deep);
+            padding: 20px 16px; text-align: center;
+        }
+        .db-metric-val {
+            font-size: 24px; font-weight: 700;
+            color: var(--white); letter-spacing: -0.02em; line-height: 1;
+            margin-bottom: 6px;
+        }
+        .db-metric-val.up { color: #22C55E; }
+        .db-metric-val.gold { color: var(--gold); }
+        .db-metric-lbl {
+            font-size: 9px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+        .db-body { padding: 20px; }
+        .db-chart-lbl {
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(255,255,255,0.3); margin-bottom: 12px;
+        }
+        .db-bars {
+            display: flex; gap: 5px; align-items: flex-end;
+            height: 72px;
+        }
+        .bar {
+            flex: 1; border-radius: 1px;
+            background: rgba(255,255,255,0.08);
+            position: relative; overflow: hidden;
+        }
+        .bar-fill {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(201,168,76,0.9), rgba(201,168,76,0.3));
+            border-radius: 1px;
+        }
+        .bar-fill.bar-up {
+            background: linear-gradient(to top, rgba(34,197,94,0.75), rgba(34,197,94,0.18));
+        }
+        .db-row {
+            padding: 12px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .db-row-label {
+            font-size: 11px; color: rgba(255,255,255,0.35);
+            letter-spacing: 0.1em;
+        }
+        .db-row-val {
+            font-size: 12px; font-weight: 600; color: var(--white);
+        }
+        .db-row-val.pos { color: #22C55E; }
+
+        /* ═══════════════════════════════════════════
+           TRUST LOGOS — scrolling, white bg
+        ═══════════════════════════════════════════ */
+        .trust { border-top: 1px solid var(--border); }
+        .trust-label-row {
+            text-align: center; padding: 56px 0 40px;
+        }
+        .trust-lbl {
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--text-light);
+        }
+        .logos-track { overflow: hidden; padding: 0 0 56px; }
+        .logos-inner {
+            display: flex; gap: 0;
+            animation: scroll 24s linear infinite;
+            white-space: nowrap;
+        }
+        .logo-item {
+            display: inline-flex; align-items: center;
+            padding: 0 48px; height: 48px;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--text-light);
+            border-right: 1px solid var(--border);
+            flex-shrink: 0;
+            transition: color 0.2s;
+        }
+        .logo-item:hover { color: var(--text); }
+
+        /* ═══════════════════════════════════════════
+           TESTIMONIAL — navy bg, large quote
+        ═══════════════════════════════════════════ */
+        .testimonial-section {
+            background: var(--navy);
+            padding: 100px 0;
+            position: relative; overflow: hidden;
+        }
+        .testimonial-section::before {
+            content: '"';
+            position: absolute; top: -40px; left: 40px;
+            font-size: 300px; font-family: var(--fs);
+            color: rgba(255,255,255,0.025);
+            line-height: 1; pointer-events: none;
+        }
+        .test-inner {
+            max-width: 900px; margin: 0 auto;
+            padding: 0 48px; text-align: center;
+            position: relative; z-index: 2;
+        }
+        .test-quote {
+            font-family: var(--fs);
+            font-size: clamp(22px, 3.2vw, 36px);
+            font-style: italic; font-weight: 400;
+            color: var(--white); line-height: 1.55;
+            margin-bottom: 40px;
+        }
+        .test-divider {
+            width: 48px; height: 2px;
+            background: var(--gold);
+            margin: 0 auto 28px;
+        }
+        .test-author {
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--white);
+        }
+        .test-role {
+            font-size: 13px; color: var(--silver-on-dark);
+            margin-top: 4px;
+        }
+
+        /* ═══════════════════════════════════════════
+           CTA SECTION — off-white
+        ═══════════════════════════════════════════ */
+        .cta-section {
+            background: var(--off-white);
+            padding: 100px 0;
+            border-top: 1px solid var(--border);
+        }
+        .cta-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 80px; align-items: start;
+        }
+        .cta-h2 {
+            font-size: clamp(36px, 4.5vw, 56px);
+            font-weight: 800; letter-spacing: -0.03em;
+            line-height: 1.02; color: var(--navy-deep);
+            margin: 16px 0 24px;
+        }
+        .cta-h2 em {
+            font-family: var(--fs); font-style: italic;
+            font-weight: 400; color: var(--text-mid);
+        }
+        .cta-body {
+            font-size: 16px; color: var(--text-mid); line-height: 1.78;
+        }
+        .cta-bullets { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
+        .cta-bullet {
+            display: flex; gap: 14px; align-items: flex-start;
+            font-size: 14px; color: var(--text-mid); line-height: 1.6;
+        }
+        .cta-bullet::before {
+            content: '';
+            width: 18px; height: 2px;
+            background: var(--gold);
+            flex-shrink: 0; margin-top: 9px;
+        }
+        .cta-form { display: flex; flex-direction: column; gap: 14px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-input {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            color: var(--text);
+            padding: 14px 18px;
+            font-family: var(--fd); font-size: 14px;
+            border-radius: 2px; outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .form-input:focus { border-color: var(--navy); }
+        .form-input::placeholder { color: var(--text-light); }
+        .form-select {
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            color: var(--text-mid);
+            padding: 14px 18px;
+            font-family: var(--fd); font-size: 14px;
+            border-radius: 2px; outline: none;
+            cursor: pointer; width: 100%;
+            transition: border-color 0.2s;
+            appearance: none;
+        }
+        .form-select:focus { border-color: var(--navy); }
+        .btn-submit {
+            background: var(--navy-deep); color: var(--white);
+            padding: 16px;
+            font-family: var(--fd); font-size: 13px; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            border: none; border-radius: 2px;
+            width: 100%; transition: background 0.25s, transform 0.15s;
+        }
+        .btn-submit:hover { background: var(--navy-mid); transform: translateY(-1px); }
+        .form-note {
+            font-size: 12px; color: var(--text-light);
+            text-align: center; letter-spacing: 0.05em;
+        }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════ */
+        footer {
+            background: var(--navy-deep);
+            color: var(--white);
+            padding: 72px 0 0;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px; padding-bottom: 56px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .footer-brand-body {
+            font-size: 14px; color: var(--silver-on-dark);
+            line-height: 1.8; margin-top: 16px; max-width: 260px;
+        }
+        .footer-tagline-pill {
+            display: inline-block; margin-top: 20px;
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid rgba(201,168,76,0.3);
+            padding: 5px 12px;
+        }
+        .footer-col-title {
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 20px;
+        }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .footer-links a {
+            font-size: 14px; color: var(--silver-on-dark);
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--white); }
+        .footer-contact {
+            font-size: 14px; color: var(--silver-on-dark); line-height: 1.8;
+        }
+        .footer-contact a { color: var(--gold); }
+        .footer-bottom {
+            padding: 20px 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .footer-copy {
+            font-size: 12px; color: rgba(255,255,255,0.2);
+            letter-spacing: 0.08em;
+        }
+
+        /* ═══════════════════════════════════════════
+           ANIMATIONS
+        ═══════════════════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-eyebrow { animation: fadeUp 0.7s ease 0.1s both; }
+        .hero-h1      { animation: fadeUp 0.7s ease 0.25s both; }
+        .hero-body    { animation: fadeUp 0.7s ease 0.38s both; }
+        .hero-actions { animation: fadeUp 0.7s ease 0.5s both; }
+        .hero-stats   { animation: fadeUp 0.7s ease 0.55s both; }
+
+        /* ═══════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+            .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+            .hero-stats { grid-template-columns: repeat(4, 1fr); }
+            .hero-stat-card.featured { grid-column: span 4; }
+            .challenge-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .steps-row { grid-template-columns: 1fr 1fr; }
+            .ai-split { grid-template-columns: 1fr; }
+            .cta-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .nav { padding: 0 24px; }
+            .hero-inner { padding: 0 24px; }
+            .nav-links { display: none; }
+            .hero-h1 { font-size: 40px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .steps-row { grid-template-columns: 1fr; }
+            .hero-stats { grid-template-columns: 1fr 1fr; }
+            .hero-stat-card.featured { grid-column: span 2; flex-direction: column; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .section, .section-dark { padding: 64px 0; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav class="nav">
+    <div class="nav-inner">
+        <!-- LOGO: Bold Q lettermark -->
+        <div class="logo-lockup">
+            <div class="logo-mark">
+                <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer border -->
+                    <rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(255,255,255,0.12)" stroke-width="1" fill="none"/>
+                    <!-- Q: filled white circle as body -->
+                    <circle cx="20" cy="20" r="13.5" fill="white"/>
+                    <!-- Q: navy inner circle (counter) -->
+                    <circle cx="20" cy="20" r="7.5" fill="#06101E"/>
+                    <!-- Q: erase lower-right of body to open the Q -->
+                    <rect x="24" y="26" width="12" height="10" fill="#06101E"/>
+                    <!-- Q: gold tail stroke -->
+                    <line x1="27" y1="29" x2="37" y2="39" stroke="#C9A84C" stroke-width="3.5" stroke-linecap="round"/>
+                    <circle cx="37" cy="39" r="2.2" fill="#C9A84C"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <div class="logo-name">QUANT X</div>
+                <div class="logo-sub">Financial Intelligence</div>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#intelligence">AI Intelligence</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <button class="nav-cta">Book a Call</button>
+    </div>
+</nav>
+
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+    <!-- Decorative circles -->
+    <div class="hero-circle-1"></div>
+    <div class="hero-circle-2"></div>
+    <div class="hero-circle-3"></div>
+    <div class="hero-ring">
+        <!-- Dots on ring -->
+        <div class="hero-dot" style="top:4%;left:50%;transform:translateX(-50%)"></div>
+        <div class="hero-dot" style="top:50%;right:0;transform:translateY(-50%)"></div>
+        <div class="hero-dot" style="bottom:8%;left:18%;"></div>
+    </div>
+
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-eyebrow">Financial Intelligence & Transformation</div>
+            <h1 class="hero-h1">
+                Mastery of Finance,<br>
+                <em>Data &amp; Analytics.</em>
+            </h1>
+            <p class="hero-body">
+                We combine senior financial expertise with intelligent automation — giving growth-stage businesses the clarity, structure, and strategic insight to scale with confidence.
+            </p>
+            <div class="hero-actions">
+                <button class="btn-primary-dark">Book a Strategy Call</button>
+                <button class="btn-outline-dark">Explore Services →</button>
+            </div>
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat-card">
+                <div class="stat-num">98<span>%</span></div>
+                <div class="stat-label">Client Retention</div>
+            </div>
+            <div class="hero-stat-card">
+                <div class="stat-num">3<span>×</span></div>
+                <div class="stat-label">Faster Reporting</div>
+            </div>
+            <div class="hero-stat-card">
+                <div class="stat-num">0</div>
+                <div class="stat-label">Audit Surprises</div>
+            </div>
+            <div class="hero-stat-card">
+                <div class="stat-num">A<span>+</span></div>
+                <div class="stat-label">Expertise Rating</div>
+            </div>
+            <div class="hero-stat-card featured">
+                <div>
+                    <div class="stat-num" style="font-size:28px">AI-First Consultancy</div>
+                    <div class="stat-label">Not AI-adjacent — fully embedded</div>
+                </div>
+                <div class="feat-body">
+                    Automation and intelligence woven into every engagement, from day one.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════ TICKER ══════════════════ -->
+<div class="ticker">
+    <div class="ticker-track">
+        <span class="ticker-item">Financial Reporting</span>
+        <span class="ticker-item">AI Automation</span>
+        <span class="ticker-item">Audit Readiness</span>
+        <span class="ticker-item">Cloud Accounting</span>
+        <span class="ticker-item">Board Advisory</span>
+        <span class="ticker-item">Process Optimisation</span>
+        <span class="ticker-item">Investor Readiness</span>
+        <span class="ticker-item">Digital Transformation</span>
+        <span class="ticker-item">Financial Reporting</span>
+        <span class="ticker-item">AI Automation</span>
+        <span class="ticker-item">Audit Readiness</span>
+        <span class="ticker-item">Cloud Accounting</span>
+        <span class="ticker-item">Board Advisory</span>
+        <span class="ticker-item">Process Optimisation</span>
+        <span class="ticker-item">Investor Readiness</span>
+        <span class="ticker-item">Digital Transformation</span>
+    </div>
+</div>
+
+
+<!-- ══════════════════ CHALLENGE ══════════════════ -->
+<section class="section section-white" id="challenge">
+    <div class="container">
+        <div class="challenge-grid">
+            <div class="challenge-left">
+                <div class="section-header">
+                    <div class="tag tag-light">The Challenge</div>
+                    <h2 class="sh-title">
+                        Financial Complexity<br>is Slowing<br><em>You Down.</em>
+                    </h2>
+                    <p class="sh-body">
+                        Most businesses hold an abundance of financial data and a scarcity of financial insight. Quant X bridges that gap — permanently and measurably.
+                    </p>
+                </div>
+                <button class="btn-primary-dark" style="background:var(--navy-deep);color:var(--white);border-color:var(--navy-deep)">See How We Solve It →</button>
+            </div>
+            <div class="challenge-right">
+                <div class="challenge-cards">
+                    <div class="challenge-card">
+                        <div class="cc-num">01</div>
+                        <div>
+                            <div class="cc-title">No Real-Time Financial Visibility</div>
+                            <div class="cc-body">Outdated reports and disconnected systems leave leadership making high-stakes decisions on stale information. We build always-on financial intelligence.</div>
+                        </div>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="cc-num">02</div>
+                        <div>
+                            <div class="cc-title">Manual, Fragmented Processes</div>
+                            <div class="cc-body">Hours disappear into reconciliation and spreadsheet chaos. We automate every financial workflow and eliminate the manual burden entirely.</div>
+                        </div>
+                    </div>
+                    <div class="challenge-card">
+                        <div class="cc-num">03</div>
+                        <div>
+                            <div class="cc-title">Not Investor or Audit Ready</div>
+                            <div class="cc-body">Weak financial presentation costs funding and credibility. We build the reporting infrastructure and narratives that open boardrooms and close rounds.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════ SERVICES ══════════════════ -->
+<section class="section section-dark" id="services">
+    <div class="container">
+        <div class="section-header centered">
+            <div class="tag tag-dark" style="justify-content:center">Our Services</div>
+            <h2 class="sh-title dark" style="text-align:center">Five Flagship Offerings.</h2>
+            <p class="sh-body dark centered">One firm. Five complete financial transformations. Built for ambition.</p>
+        </div>
+        <div class="services-grid">
+
+            <div class="service-card">
+                <div class="sc-index">01</div>
+                <div class="sc-icon-wrap">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M3 17l4-6 4 4 4-8 4 5" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 20h18" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="sc-name">FinanceClear™</div>
+                <div class="sc-badge">Reporting & Investor Readiness</div>
+                <div class="sc-desc">Board-level reporting packs, investor-ready statements, and strategic financial narratives. We transform raw figures into compelling stories that open doors — from lenders to Series A investors.</div>
+                <div class="sc-arrow">→</div>
+            </div>
+
+            <div class="service-card">
+                <div class="sc-index">02</div>
+                <div class="sc-icon-wrap">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="sc-name">OperaFlow™</div>
+                <div class="sc-badge">Process Optimisation</div>
+                <div class="sc-desc">End-to-end process mapping, bottleneck elimination, and operational efficiency design. We rebuild your finance function for speed, accuracy, and scale.</div>
+                <div class="sc-arrow">→</div>
+            </div>
+
+            <div class="service-card">
+                <div class="sc-index">03</div>
+                <div class="sc-icon-wrap">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 12l2 2 4-4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="sc-name">AuditShield™</div>
+                <div class="sc-badge">Audit Preparation & Controls</div>
+                <div class="sc-desc">Comprehensive audit readiness and internal control strengthening. We get your organisation audit-ready before the auditors arrive — eliminating surprises and reducing costs.</div>
+                <div class="sc-arrow">→</div>
+            </div>
+
+            <div class="service-card">
+                <div class="sc-index">04</div>
+                <div class="sc-icon-wrap">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 22V12h6v10" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="sc-name">CloudStack™</div>
+                <div class="sc-badge">Cloud Accounting & Systems</div>
+                <div class="sc-desc">Expert implementation of cloud accounting ecosystems — Xero, QuickBooks, Sage, NetSuite — built for intelligence and automation from the ground up.</div>
+                <div class="sc-arrow">→</div>
+            </div>
+
+            <div class="service-card">
+                <div class="sc-index">05</div>
+                <div class="sc-icon-wrap">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path d="M12 2a5 5 0 015 5v2H7V7a5 5 0 015-5z" stroke="#C9A84C" stroke-width="1.5"/>
+                        <path d="M3 9h18l-2 11H5L3 9z" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="sc-name">Automate™</div>
+                <div class="sc-badge">AI & Digital Transformation</div>
+                <div class="sc-desc">AI-driven reconciliation, intelligent reporting pipelines, and full automation roadmaps. Your team focuses on strategic insight — not manual input.</div>
+                <div class="sc-arrow">→</div>
+            </div>
+
+            <div class="service-card" style="justify-content:center;align-items:center;text-align:center;border:1px dashed rgba(255,255,255,0.12);background:transparent">
+                <div style="font-family:var(--fs);font-style:italic;font-size:18px;color:var(--silver-on-dark);margin-bottom:20px;line-height:1.5">"Not sure which service fits your needs?"</div>
+                <button class="btn-primary-dark" style="background:var(--white);color:var(--navy-deep)">Book a Free Discovery Call</button>
+            </div>
+
+            <!-- Full-width CTA -->
+            <div class="services-cta-card">
+                <div class="scc-text">Trusted by ambitious SMEs and growth-stage businesses.<br><span>Senior expertise, intelligently delivered.</span></div>
+                <button class="btn-navy">Explore All Services →</button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════ HOW IT WORKS ══════════════════ -->
+<section class="section section-white" id="how">
+    <div class="container">
+        <div class="section-header">
+            <div class="tag tag-light">Our Process</div>
+            <h2 class="sh-title">From Complexity to <em>Clarity</em><br>in Four Steps.</h2>
+        </div>
+        <div class="steps-row">
+            <div class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-title">Discovery</div>
+                <div class="step-body">A thorough diagnostic of your finance function, systems, pain points, and growth ambitions. We understand before we prescribe.</div>
+                <div class="step-connector"></div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-title">Architecture</div>
+                <div class="step-body">We design a bespoke financial intelligence blueprint — the systems, processes, and structures your business needs to operate and scale.</div>
+                <div class="step-connector"></div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-title">Deployment</div>
+                <div class="step-body">Rapid, expert implementation of automation, cloud systems, reporting frameworks, and controls. Zero disruption, maximum impact.</div>
+                <div class="step-connector"></div>
+            </div>
+            <div class="step-card">
+                <div class="step-num">04</div>
+                <div class="step-title">Mastery</div>
+                <div class="step-body">Ongoing advisory, optimisation, and strategic partnership. We remain embedded so your financial intelligence compounds over time.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════ AI INTELLIGENCE ══════════════════ -->
+<section class="section section-dark" id="intelligence">
+    <div class="container">
+        <div class="ai-split">
+            <div>
+                <div class="tag tag-dark">AI Intelligence</div>
+                <h2 class="sh-title dark" style="margin-top:16px">
+                    Powered by Data.<br>
+                    <em style="color:rgba(255,255,255,0.45)">Built for Growth.</em>
+                </h2>
+                <p class="sh-body dark" style="margin-top:20px">
+                    We don't merely use AI — we embed it into every engagement. The result: a finance function that operates faster, smarter, and with complete transparency — backed by real market intelligence.
+                </p>
+                <div class="ai-features">
+                    <div class="ai-feat">
+                        <div class="ai-feat-num">01</div>
+                        <div>
+                            <div class="ai-feat-title">AI-Driven Reconciliation</div>
+                            <div class="ai-feat-body">Automated matching that eliminates hours of manual work and near-eliminates error rates across your accounts.</div>
+                        </div>
+                    </div>
+                    <div class="ai-feat">
+                        <div class="ai-feat-num">02</div>
+                        <div>
+                            <div class="ai-feat-title">Intelligent Reporting Pipelines</div>
+                            <div class="ai-feat-body">Real-time dashboards and automated report generation for boards, investors, and senior leadership.</div>
+                        </div>
+                    </div>
+                    <div class="ai-feat">
+                        <div class="ai-feat-num">03</div>
+                        <div>
+                            <div class="ai-feat-title">Predictive Cash Flow</div>
+                            <div class="ai-feat-body">Forward-looking intelligence so you never face a cash crisis unprepared — anticipate before you react.</div>
+                        </div>
+                    </div>
+                    <div class="ai-feat">
+                        <div class="ai-feat-num">04</div>
+                        <div>
+                            <div class="ai-feat-title">Continuous Controls Monitoring</div>
+                            <div class="ai-feat-body">Always-on internal control surveillance with instant anomaly detection and alert escalation.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JAMAICAN SME INTELLIGENCE DASHBOARD -->
+            <div class="dashboard">
+                <div class="db-topbar">
+                    <div class="db-title-text">Quant X · SME Intelligence</div>
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <span style="font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;background:rgba(201,168,76,0.15);color:#C9A84C;border:1px solid rgba(201,168,76,0.25);padding:3px 9px;">MSME 2023–24</span>
+                        <div class="db-live"><span class="db-live-dot"></span>Live</div>
+                    </div>
+                </div>
+                <div class="db-metrics">
+                    <div class="db-metric">
+                        <div class="db-metric-val gold">J$207B</div>
+                        <div class="db-metric-lbl">MSME Sector Sales</div>
+                    </div>
+                    <div class="db-metric">
+                        <div class="db-metric-val up">+5.1%</div>
+                        <div class="db-metric-lbl">GDP Growth Q3</div>
+                    </div>
+                    <div class="db-metric">
+                        <div class="db-metric-val">90%<span style="font-size:11px;color:rgba(255,255,255,0.3)">+</span></div>
+                        <div class="db-metric-lbl">Of All Businesses</div>
+                    </div>
+                </div>
+                <div class="db-body">
+                    <div class="db-chart-lbl">MSME Monthly Revenue Index (Jamaica 2023)</div>
+                    <div class="db-bars">
+                        <div class="bar"><div class="bar-fill" style="height:58%"></div></div>
+                        <div class="bar"><div class="bar-fill" style="height:52%"></div></div>
+                        <div class="bar"><div class="bar-fill" style="height:63%"></div></div>
+                        <div class="bar"><div class="bar-fill" style="height:70%"></div></div>
+                        <div class="bar"><div class="bar-fill bar-up" style="height:76%"></div></div>
+                        <div class="bar"><div class="bar-fill bar-up" style="height:82%"></div></div>
+                        <div class="bar"><div class="bar-fill bar-up" style="height:100%"></div></div>
+                        <div class="bar"><div class="bar-fill bar-up" style="height:94%"></div></div>
+                        <div class="bar"><div class="bar-fill" style="height:78%"></div></div>
+                        <div class="bar"><div class="bar-fill" style="height:71%"></div></div>
+                        <div class="bar"><div class="bar-fill bar-up" style="height:88%"></div></div>
+                        <div class="bar"><div class="bar-fill bar-up" style="height:97%"></div></div>
+                    </div>
+                </div>
+                <!-- Sector breakdown -->
+                <div style="padding:12px 18px 14px;border-top:1px solid rgba(255,255,255,0.06)">
+                    <div style="font-size:9px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:12px">MSME Sector Distribution</div>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <div style="font-size:9px;color:rgba(255,255,255,0.35);width:80px;letter-spacing:0.08em">Services</div>
+                            <div style="flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden"><div style="height:100%;width:68%;background:#C9A84C;border-radius:2px"></div></div>
+                            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);width:28px;text-align:right">68%</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <div style="font-size:9px;color:rgba(255,255,255,0.35);width:80px;letter-spacing:0.08em">Trade</div>
+                            <div style="flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden"><div style="height:100%;width:19%;background:#C9A84C;border-radius:2px;opacity:0.6"></div></div>
+                            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);width:28px;text-align:right">19%</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <div style="font-size:9px;color:rgba(255,255,255,0.35);width:80px;letter-spacing:0.08em">Manufacturing</div>
+                            <div style="flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden"><div style="height:100%;width:9%;background:rgba(255,255,255,0.25);border-radius:2px"></div></div>
+                            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);width:28px;text-align:right">9%</div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px">
+                            <div style="font-size:9px;color:rgba(255,255,255,0.35);width:80px;letter-spacing:0.08em">Tourism</div>
+                            <div style="flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden"><div style="height:100%;width:4%;background:rgba(255,255,255,0.18);border-radius:2px"></div></div>
+                            <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.45);width:28px;text-align:right">4%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="db-row">
+                    <div class="db-row-label">SMEs Lacking Investor-Ready Financials</div>
+                    <div class="db-row-val" style="color:#FF6B6B">~78%</div>
+                </div>
+                <div class="db-row">
+                    <div class="db-row-label">DBJ / JDB Financing Disbursed (2023)</div>
+                    <div class="db-row-val gold">J$335M+</div>
+                </div>
+                <div class="db-row">
+                    <div class="db-row-label">BoJ Policy Rate (2024)</div>
+                    <div class="db-row-val">6.00%</div>
+                </div>
+                <div class="db-row" style="background:rgba(201,168,76,0.05);border-top:1px solid rgba(201,168,76,0.12)">
+                    <div class="db-row-label" style="color:rgba(201,168,76,0.7)">Quant X Clients — Avg Revenue Growth</div>
+                    <div class="db-row-val gold">+23.4%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<!-- ══════════════════ TESTIMONIAL ══════════════════ -->
+<section class="testimonial-section">
+    <div class="test-inner">
+        <div class="test-divider"></div>
+        <blockquote class="test-quote">
+            "Quant X didn't just improve our financial reporting — they transformed how our entire leadership team thinks about finance. We raised our Series A six months after working with them."
+        </blockquote>
+        <div class="test-divider"></div>
+        <div class="test-author">Sarah Mitchell</div>
+        <div class="test-role">CEO — NovaBuild Technologies</div>
+    </div>
+</section>
+
+
+<!-- ══════════════════ CTA / CONTACT ══════════════════ -->
+<section class="cta-section" id="contact">
+    <div class="container">
+        <div class="cta-grid">
+            <div>
+                <div class="tag tag-light">Ready to Begin?</div>
+                <h2 class="cta-h2">Book Your Free<br><em>Discovery Session.</em></h2>
+                <p class="cta-body">30 minutes. No pitch. Real insight into where your finance function stands — and exactly what it could become with Quant X.</p>
+                <div class="cta-bullets">
+                    <div class="cta-bullet">Immediate assessment of your most pressing financial pain points</div>
+                    <div class="cta-bullet">A clear roadmap for transformation — with no obligation</div>
+                    <div class="cta-bullet">Senior partner-level conversation, not a junior sales representative</div>
+                </div>
+            </div>
+            <div>
+                <div class="cta-form">
+                    <div class="form-row">
+                        <input class="form-input" type="text" placeholder="First Name">
+                        <input class="form-input" type="text" placeholder="Last Name">
+                    </div>
+                    <input class="form-input" type="email" placeholder="Business Email">
+                    <input class="form-input" type="text" placeholder="Company Name">
+                    <select class="form-select">
+                        <option value="" disabled selected>Primary Need</option>
+                        <option>Financial Reporting & Investor Readiness</option>
+                        <option>Process Optimisation</option>
+                        <option>Audit Preparation & Controls</option>
+                        <option>Cloud Accounting Setup</option>
+                        <option>AI & Automation</option>
+                        <option>Not sure — need guidance</option>
+                    </select>
+                    <button class="btn-submit">Book My Free Session →</button>
+                    <div class="form-note">No commitment required · Response within 24 hours</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <!-- Footer logo — Q lettermark -->
+                <div class="logo-lockup">
+                    <div class="logo-mark">
+                        <svg width="38" height="38" viewBox="0 0 44 44" fill="none">
+                            <rect x="0.5" y="0.5" width="43" height="43" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/>
+                            <circle cx="20" cy="20" r="13.5" fill="white" opacity="0.9"/>
+                            <circle cx="20" cy="20" r="7.5" fill="#06101E"/>
+                            <rect x="24" y="26" width="12" height="10" fill="#06101E"/>
+                            <line x1="27" y1="29" x2="37" y2="39" stroke="#C9A84C" stroke-width="3.5" stroke-linecap="round"/>
+                            <circle cx="37" cy="39" r="2.2" fill="#C9A84C"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-name">QUANT X</div>
+                        <div class="logo-sub">Financial Intelligence</div>
+                    </div>
+                </div>
+                <div class="footer-brand-body">
+                    Financial Intelligence & Transformation Consultancy. Built for SMEs and growth-stage businesses that demand more than compliance.
+                </div>
+                <div class="footer-tagline-pill">Mastery of Finance, Data & Analytics</div>
+            </div>
+            <div>
+                <div class="footer-col-title">Services</div>
+                <ul class="footer-links">
+                    <li><a href="#">FinanceClear™</a></li>
+                    <li><a href="#">OperaFlow™</a></li>
+                    <li><a href="#">AuditShield™</a></li>
+                    <li><a href="#">CloudStack™</a></li>
+                    <li><a href="#">Automate™</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Company</div>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">How It Works</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Insights</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-col-title">Contact</div>
+                <div class="footer-contact">
+                    <a href="mailto:hello@quantx.io">hello@quantx.io</a><br>
+                    +44 (0)20 0000 0000<br><br>
+                    <a href="#">Book a Discovery Session →</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copy">© 2025 Quant X Financial Intelligence. All rights reserved.</div>
+            <div class="footer-copy">Privacy Policy · Cookie Policy</div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

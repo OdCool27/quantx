@@ -1,0 +1,64 @@
+/* ═══════════════════════════════════════════
+   HOW IT WORKS — white bg, horizontal steps
+══════════════════════════════════════════ */
+.steps-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 56px;
+}
+.step-card {
+    background: var(--white); padding: 36px 28px;
+    position: relative; transition: background 0.25s;
+}
+.step-card:hover { background: var(--off-white); }
+.step-num {
+    font-size: 56px; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 1;
+    color: rgba(11,26,46,0.06);
+    margin-bottom: 20px;
+}
+.step-title {
+    font-size: 18px; font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 12px;
+}
+.step-body {
+    font-size: 14px; color: var(--text-mid); line-height: 1.72;
+}
+.step-connector {
+    position: absolute; right: -1px; top: 36px;
+    width: 1px; height: 40px;
+    background: var(--gold);
+}
+
+@media (max-width: 1024px) {
+    .step-card {
+        padding: 30px 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .steps-row {
+        grid-template-columns: 1fr 1fr;
+        margin-top: 40px;
+    }
+
+    .step-card {
+        padding: 26px 20px;
+    }
+
+    .step-connector {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .step-num {
+        font-size: 42px;
+        margin-bottom: 16px;
+    }
+
+    .step-title {
+        font-size: 17px;
+    }
+}

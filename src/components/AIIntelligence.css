@@ -1,0 +1,277 @@
+.ai-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.ai-features {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.ai-feat {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 20px 24px;
+  border: 1px solid var(--inverse-border);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.ai-feat:hover {
+  border-color: rgba(201, 168, 76, 0.3);
+  background: var(--inverse-surface);
+}
+
+.ai-feat-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+
+.ai-feat-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--inverse-text);
+  margin-bottom: 6px;
+}
+
+.ai-feat-body {
+  font-size: 13px;
+  color: var(--inverse-muted);
+  line-height: 1.68;
+}
+
+.dashboard {
+  background: var(--inverse-surface);
+  border: 1px solid var(--inverse-border-strong);
+}
+
+.db-topbar {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--inverse-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--inverse-surface);
+}
+
+.db-title-text {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--inverse-faint);
+}
+
+.db-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #22c55e;
+}
+
+.db-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: blink 1.8s ease infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.db-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--inverse-grid);
+  border-bottom: 1px solid var(--inverse-border);
+}
+
+.db-metric {
+  background: var(--inverse-bg);
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.db-metric-val {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--inverse-text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.db-metric-val.up {
+  color: #22c55e;
+}
+
+.db-metric-val.gold {
+  color: var(--gold);
+}
+
+.db-metric-lbl {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--inverse-dim);
+}
+
+.db-body {
+  padding: 20px;
+}
+
+.db-chart-lbl {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--inverse-dim);
+  margin-bottom: 12px;
+}
+
+.db-bars {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  height: 72px;
+}
+
+.bar {
+  flex: 1;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+:root[data-theme='light'] .bar {
+  background: rgba(11, 26, 46, 0.08);
+}
+
+.bar-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(201, 168, 76, 0.9), rgba(201, 168, 76, 0.3));
+  border-radius: 1px;
+}
+
+.bar-fill.bar-up {
+  background: linear-gradient(to top, rgba(34, 197, 94, 0.75), rgba(34, 197, 94, 0.18));
+}
+
+.db-row {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme='light'] .db-row {
+  border-top-color: rgba(11, 26, 46, 0.06);
+}
+
+.db-row-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.1em;
+}
+
+:root[data-theme='light'] .db-row-label {
+  color: rgba(11, 26, 46, 0.4);
+}
+
+.db-row-val {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--inverse-text);
+}
+
+.db-row-val.pos {
+  color: #22c55e;
+}
+
+@media (max-width: 1024px) {
+  .ai-split {
+    gap: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ai-split {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .ai-feat {
+    padding: 18px 18px;
+  }
+
+  .db-topbar {
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .db-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .db-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .db-row-val {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .ai-feat {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .db-topbar,
+  .db-body,
+  .db-row {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .db-bars {
+    gap: 3px;
+    height: 64px;
+  }
+
+  .db-title-text {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+}
