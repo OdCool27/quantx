@@ -1,5 +1,13 @@
-import { useState } from 'react';
-import { BLOG_STORAGE_KEY, defaultPosts, saveCustomBlogPosts } from '../data/blog';
+import { useEffect, useRef, useState } from 'react';
+import { defaultPosts, sortPosts } from '../data/blog';
+import {
+  BLOG_ADMIN_TOKEN_STORAGE_KEY,
+  clearSharedBlogPosts,
+  deleteSharedBlogPost,
+  fetchCustomBlogPosts,
+  persistBlogAdminToken,
+  saveSharedBlogPost,
+} from '../data/blogApi';
 import './BlogStudio.css';
 
 const initialEntry = {
@@ -22,26 +30,51 @@ const slugify = (value) =>
 const BlogStudio = () => {
   const [entry, setEntry] = useState(initialEntry);
   const [message, setMessage] = useState('');
-  const [customPosts, setCustomPosts] = useState(() => {
+  const [customPosts, setCustomPosts] = useState([]);
+  const [adminToken, setAdminToken] = useState(() => {
     if (typeof window === 'undefined') {
-      return [];
+      return '';
     }
 
-    try {
-      const storedValue = window.localStorage.getItem(BLOG_STORAGE_KEY);
-      const parsedValue = storedValue ? JSON.parse(storedValue) : [];
-      return Array.isArray(parsedValue) ? parsedValue : [];
-    } catch {
-      return [];
-    }
+    return window.localStorage.getItem(BLOG_ADMIN_TOKEN_STORAGE_KEY) || '';
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const syncTimerRef = useRef(null);
 
-  const combinedPosts = [...customPosts, ...defaultPosts].reduce((posts, post) => {
-    if (posts.some((existingPost) => existingPost.id === post.id)) {
-      return posts;
-    }
+  const combinedPosts = sortPosts(
+    [...customPosts, ...defaultPosts].reduce((posts, post) => {
+      if (posts.some((existingPost) => existingPost.id === post.id)) {
+        return posts;
+      }
 
-    return [...posts, post];
+      return [...posts, post];
+    }, []),
+  );
+
+  useEffect(() => {
+    let isActive = true;
+    const loadTimer = window.setTimeout(async () => {
+      try {
+        const sharedPosts = await fetchCustomBlogPosts();
+
+        if (isActive) {
+          setCustomPosts(sharedPosts);
+        }
+      } catch {
+        if (isActive) {
+          setMessage('Unable to load shared blog posts right now. Default posts are still shown below.');
+        }
+      }
+    }, 0);
+
+    return () => {
+      isActive = false;
+      window.clearTimeout(loadTimer);
+
+      if (syncTimerRef.current) {
+        window.clearTimeout(syncTimerRef.current);
+      }
+    };
   }, []);
 
   const handleChange = (event) => {
@@ -53,7 +86,23 @@ const BlogStudio = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleTokenChange = (event) => {
+    const nextToken = event.target.value;
+    setAdminToken(nextToken);
+    persistBlogAdminToken(nextToken.trim());
+  };
+
+  const queueVisibilityMessage = () => {
+    if (syncTimerRef.current) {
+      window.clearTimeout(syncTimerRef.current);
+    }
+
+    syncTimerRef.current = window.setTimeout(() => {
+      setMessage('Posts are shared across all visitors. Netlify edge caches can take up to about 60 seconds to reflect updates everywhere.');
+    }, 5000);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const nextPost = {
@@ -69,24 +118,49 @@ const BlogStudio = () => {
       return;
     }
 
-    const nextPosts = [nextPost, ...customPosts.filter((post) => post.id !== nextPost.id)];
-    saveCustomBlogPosts(nextPosts);
-    setCustomPosts(nextPosts);
-    setEntry(initialEntry);
-    setMessage('Blog entry saved. It is now visible on `/blog` for this browser.');
+    setIsSubmitting(true);
+
+    try {
+      const nextPosts = await saveSharedBlogPost(nextPost, adminToken.trim());
+      setCustomPosts(nextPosts);
+      setEntry(initialEntry);
+      setMessage('Blog entry saved. It is now available to all users on `/blog`.');
+      queueVisibilityMessage();
+    } catch (error) {
+      setMessage(error.message || 'Unable to save this blog entry right now.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleDelete = (postId) => {
-    const nextPosts = customPosts.filter((post) => post.id !== postId);
-    saveCustomBlogPosts(nextPosts);
-    setCustomPosts(nextPosts);
-    setMessage('Custom blog entry removed.');
+  const handleDelete = async (postId) => {
+    setIsSubmitting(true);
+
+    try {
+      const nextPosts = await deleteSharedBlogPost(postId, adminToken.trim());
+      setCustomPosts(nextPosts);
+      setMessage('Shared blog entry removed.');
+      queueVisibilityMessage();
+    } catch (error) {
+      setMessage(error.message || 'Unable to delete this blog entry right now.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleReset = () => {
-    saveCustomBlogPosts([]);
-    setCustomPosts([]);
-    setMessage('Custom entries cleared. Default posts remain available.');
+  const handleReset = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const nextPosts = await clearSharedBlogPosts(adminToken.trim());
+      setCustomPosts(nextPosts);
+      setMessage('Shared custom entries cleared. Default posts remain available.');
+      queueVisibilityMessage();
+    } catch (error) {
+      setMessage(error.message || 'Unable to clear shared posts right now.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -98,7 +172,10 @@ const BlogStudio = () => {
             Private blog entry manager for <em>Quant X.</em>
           </h1>
           <p className="sh-body dark blog-studio-intro">
-            This page is intentionally not linked anywhere else on the site. Entries saved here are stored in this browser&apos;s local storage and appear immediately on the public blog page.
+            This page is intentionally not linked anywhere else on the site. Entries saved here are stored in a shared Netlify-backed store so they can appear on the public blog page for all visitors.
+          </p>
+          <p className="sh-body dark blog-studio-intro">
+            Reads are public. Writes can be protected with a `BLOG_ADMIN_TOKEN` environment variable, which you can enter below before publishing or deleting posts.
           </p>
         </div>
       </section>
@@ -112,12 +189,26 @@ const BlogStudio = () => {
                   <div className="tag tag-light">New Entry</div>
                   <h2 className="studio-title">Create or replace a post</h2>
                 </div>
-                <button type="button" className="studio-secondary-btn" onClick={handleReset}>
-                  Clear Custom Posts
-                </button>
+                <div className="studio-panel-actions">
+                  <button type="button" className="studio-secondary-btn" onClick={handleReset} disabled={isSubmitting}>
+                    Clear Custom Posts
+                  </button>
+                </div>
               </div>
 
               <form className="studio-form" onSubmit={handleSubmit}>
+                <label>
+                  <span>Admin Token</span>
+                  <input
+                    type="password"
+                    name="adminToken"
+                    value={adminToken}
+                    onChange={handleTokenChange}
+                    placeholder="Required only if BLOG_ADMIN_TOKEN is set in Netlify"
+                    autoComplete="off"
+                  />
+                </label>
+
                 <div className="studio-form-grid">
                   <label>
                     <span>Title</span>
@@ -158,7 +249,9 @@ const BlogStudio = () => {
                 </label>
 
                 <div className="studio-form-footer">
-                  <button type="submit" className="nav-cta">Save Entry</button>
+                  <button type="submit" className="nav-cta" disabled={isSubmitting}>
+                    {isSubmitting ? 'Saving...' : 'Save Entry'}
+                  </button>
                   {message ? <div className="studio-message">{message}</div> : null}
                 </div>
               </form>
@@ -187,7 +280,7 @@ const BlogStudio = () => {
                       <div className="studio-preview-footer">
                         <span>{post.publishedAt}</span>
                         {!isDefaultPost ? (
-                          <button type="button" className="studio-delete-btn" onClick={() => handleDelete(post.id)}>
+                          <button type="button" className="studio-delete-btn" onClick={() => handleDelete(post.id)} disabled={isSubmitting}>
                             Delete
                           </button>
                         ) : null}

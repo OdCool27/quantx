@@ -31,6 +31,13 @@
   margin-bottom: 24px;
 }
 
+.studio-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
 .studio-title {
   margin-top: 14px;
   font-size: 32px;
@@ -179,6 +186,10 @@
   .studio-form-footer {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .studio-panel-actions {
+    justify-content: stretch;
   }
 
   .studio-form-grid {

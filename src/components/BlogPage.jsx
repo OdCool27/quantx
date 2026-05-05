@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { loadBlogPosts } from '../data/blog';
+import { fetchSharedBlogPosts } from '../data/blogApi';
 import './BlogPage.css';
 
 const formatBlogDate = (dateValue) =>
@@ -9,7 +11,26 @@ const formatBlogDate = (dateValue) =>
   }).format(new Date(dateValue));
 
 const BlogPage = ({ onNavigateHome }) => {
-  const posts = loadBlogPosts();
+  const [posts, setPosts] = useState(loadBlogPosts);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const syncPosts = async () => {
+      const nextPosts = await fetchSharedBlogPosts();
+
+      if (isActive) {
+        setPosts(nextPosts);
+      }
+    };
+
+    syncPosts();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
   const [featuredPost, ...otherPosts] = posts;
 
   return (
